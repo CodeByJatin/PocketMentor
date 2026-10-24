@@ -1,76 +1,100 @@
-# Pocket Mentor AI
+# Pocket Mentor
 
-Pocket Mentor is an autonomous Personal Career Strategist and Daily Curriculum Architect. Built with Python, Flask, and Google Gemini Flash, it translates career ambitions across any discipline into an intensive, sequential execution ladder.
+An autonomous AI career strategist and daily curriculum builder. Powered by Google Gemini and Flask, Pocket Mentor analyzes your background, creates a custom 6-month career roadmap, and breaks it down into sequential daily missions with multi-platform learning resources.
 
 ---
 
-## Key Features
+## Creator & Current Focus
 
-- **Universal Multi-Domain Alignment**: Tailored career blueprints for any discipline (Engineering, Data/AI, Product, Design, Finance, Business, Trades).
-- **Candid Career Diagnosis**: Generates a high-impact reality check analyzing transferable strengths, critical blind spots, high-leverage career trajectories, and daily habits.
-- **Dynamic Track Proposal**: Proposes three distinct, high-demand career pathways tailored specifically to individual background and goals, with support for custom specializations.
-- **5–6 Month Master Blueprint**: Wide-screen milestone architecture breaking down monthly objectives, core competencies, concrete portfolio deliverables, and authoritative primary sources.
-- **30-Day Sequential Prerequisite Ladder**: Breaks down each month into 30 sequential daily missions where each day directly builds on the prior day's deliverable.
-- **Curated Multi-Platform Resources**: Every mission pairs specific tasks with recognized authoritative learning platforms (e.g. Official Documentation, LeetCode, GitHub, MDN, GeeksforGeeks, Real Python) and explicit platform instructions.
-- **Strict Progression Gatekeeper**: Unlocks Month 2+ only after 100% completion of the active month, injecting past month accomplishments into the AI curriculum generator so topics never repeat.
-- **Daily Upgrading Industry News**: Delivers concise industry news headlines with publisher source tags and direct links, updating automatically every day based on calendar date.
-- **Daily Action Directive**: A date-synchronized motivational directive focusing on daily execution, discipline, and momentum.
-- **Pocket Mentor Partner AI Chatbot**: An embedded AI companion chatbot delivering real-time, context-aware mentoring tailored to the user's active streak and daily mission with sub-2-second response latency.
-- **Emoji-Free Executive Interface**: Professional, clean typography and responsive glassmorphism layout designed for deep focus.
+- **Built By**: Jatin ([@CodeByJatin](https://github.com/CodeByJatin))
+- **Background**: 2nd Year B.Tech in Automation and Robotics
+- **Active Track**: AI & Machine Learning Engineering
+- **Current Focus**: Mastering core ML fundamentals, autonomous systems, neural networks, and building production-grade AI-powered web applications.
+
+---
+
+## How It Works
+
+Pocket Mentor turns career ambitions into a daily execution ladder in 4 simple steps:
+
+1. **Profile Genesis**: Enter your background, experience level, daily time commitment, and primary career goals.
+2. **Candid Diagnosis**: AI evaluates your strengths, highlights blind spots, and proposes 3 tailored career specializations.
+3. **Master Blueprint**: Generates a 6-month roadmap with monthly milestone deliverables and authoritative sources.
+4. **Daily Execution Ladder**: Breaks each month into 30 sequential daily missions paired with verified learning resources, active habit tracking, and an embedded AI Mentor Partner chatbot.
+
+---
+
+## Core Features
+
+- **Sequential Daily Missions**: 30 daily tasks per month that strictly build on prior deliverables.
+- **Strict Progression Gatekeeper**: Month 2 unlocks only upon 100% completion of Month 1, ensuring no repeated topics.
+- **Curated Multi-Platform Resources**: Every mission pairs with primary documentation (LeetCode, GitHub, MDN, Real Python, Official Docs).
+- **Daily Upgrading Industry News**: Real-time domain news headlines that refresh automatically each day based on calendar date.
+- **Daily Action Directive**: Date-synchronized discipline and action quotes to maintain momentum.
+- **Mentor Partner AI Chatbot**: An embedded AI chatbot aware of your current streak, daily mission, and learning history.
+- **Clean Focus Interface**: High-contrast, executive glassmorphism UI designed for deep focus with zero distraction.
 
 ---
 
 ## Tech Stack
 
-- **Backend**: Python 3.10+, Flask
-- **Database**: SQLite3
-- **AI Engine**: Google Gemini API (`gemini-3.6-flash` / `gemini-2.5-flash` with zero thinking latency)
-- **Frontend**: Responsive HTML5, CSS3 Glassmorphism, Vanilla JavaScript
+| Component | Technology |
+| :--- | :--- |
+| **Backend** | Python 3.10+, Flask |
+| **Database** | SQLite3 |
+| **AI Model** | Google Gemini (`gemini-3.6-flash` / `gemini-2.5-flash`) |
+| **Server** | Gunicorn (Production WSGI) |
+| **Frontend** | HTML5, Modern CSS Glassmorphism, Vanilla JavaScript |
 
 ---
 
-## Getting Started
+## Quick Start (3 Steps)
 
-### 1. Clone the Repository
+### 1. Clone & Set Up
 ```bash
 git clone https://github.com/CodeByJatin/PocketMentor.git
 cd PocketMentor
-```
-
-### 2. Set Up Virtual Environment
-```bash
 python -m venv venv
 # Windows:
 venv\Scripts\activate
-# macOS/Linux:
+# Mac/Linux:
 source venv/bin/activate
-```
-
-### 3. Install Dependencies
-```bash
 pip install -r requirements.txt
 ```
 
-### 4. Initialize Database
+### 2. Configure Environment
+Copy `.env.example` to `.env`:
 ```bash
-python init_db.py
+cp .env.example .env
+```
+Add your free Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey):
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-3.6-flash
+SECRET_KEY=your_secret_session_key
 ```
 
-### 5. Configure Gemini API Key
-Set your Gemini API key in `app.py` or as an environment variable:
-```python
-GEMINI_API_KEY = "your-gemini-api-key"
-GEMINI_MODEL = "gemini-3.6-flash"
-```
-
-### 6. Run the Application
+### 3. Run
 ```bash
 python app.py
 ```
-Visit `http://127.0.0.1:5000` in your browser.
+Open `http://localhost:5000` in your browser.
+
+---
+
+## Deploy to Render
+
+Pocket Mentor is pre-configured for one-click deployment on Render:
+
+1. Create a **New Web Service** connected to your GitHub repository.
+2. Set configuration:
+   - **Build Command**: `pip install -r requirements.txt && python init_db.py`
+   - **Start Command**: `gunicorn app:app`
+3. Add Environment Variable:
+   - `GEMINI_API_KEY`: *(Your Google AI Studio API Key)*
 
 ---
 
 ## License
 
-This project is licensed under the MIT License.
+MIT License. Built by [Jatin](https://github.com/CodeByJatin).
