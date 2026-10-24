@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pocket Mentor | 30-Day Step-by-Step Curriculum</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-canvas: #f8fafc;
+            --surface-glass: rgba(255, 255, 255, 0.88);
+            --surface-glass-hover: #ffffff;
+            --border-subtle: rgba(15, 23, 42, 0.08);
+            --border-hover: rgba(15, 23, 42, 0.16);
+            --border-strong: #0f172a;
+            --text-heading: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            --accent-dark: #0f172a;
+            --accent-dark-hover: #1e293b;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-body);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 120px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Subtle Light Ambient Depth */
+        .ambient-light {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(140px);
+        }
+
+        .ambient-top {
+            width: 700px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(226, 232, 240, 0.6) 0%, transparent 70%);
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Nav */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 40px;
+            background: rgba(248, 250, 252, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .nav-back {
+            color: var(--text-heading);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 7px 14px;
+            border-radius: 9px;
+            border: 1px solid var(--border-subtle);
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            transition: all 0.2s;
+        }
+
+        .nav-back:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+        }
+
+        .nav-tag {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .streak-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 16px;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-heading);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+        }
+
+        .btn-finish {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 20px;
+            background: var(--accent-dark);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-finish:hover {
+            background: var(--accent-dark-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 36px 36px 0;
+        }
+
+        /* Hero Progress Banner */
+        .header-panel {
+            background: var(--surface-glass);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 26px;
+            padding: 36px 44px;
+            margin-bottom: 28px;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .header-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .eyebrow span.dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent-dark);
+            display: inline-block;
+        }
+
+        .header-panel h1 {
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin-bottom: 8px;
+            color: var(--text-heading);
+        }
+
+        .header-panel p {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.55;
+            max-width: 900px;
+        }
+
+        .progress-bar-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .progress-meta strong {
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 9px;
+            background: #e2e8f0;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-dark);
+            border-radius: 999px;
+            transition: width 0.35s ease;
+        }
+
+        /* Filter Controls */
+        .controls-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .filter-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .pills-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .pill-btn {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-body);
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s ease;
+        }
+
+        .pill-btn:hover {
+            border-color: var(--border-hover);
+            color: var(--text-heading);
+        }
+
+        .pill-btn.active {
+            background: var(--accent-dark);
+            color: #ffffff;
+            border-color: var(--accent-dark);
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+        }
+
+        .btn-refresh {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-body);
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border-subtle);
+            background: #ffffff;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s;
+        }
+
+        .btn-refresh:hover {
+            border-color: var(--border-hover);
+            color: var(--text-heading);
+        }
+
+        /* Month Nav Tabs */
+        .month-nav-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+        }
+
+        .month-tabs {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 5px;
+            border-radius: 14px;
+            border: 1px solid var(--border-subtle);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+        }
+
+        .month-tab {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .month-tab:hover {
+            color: var(--text-heading);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .month-tab.active {
+            background: var(--accent-dark);
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+        }
+
+        .month-tab-unlock {
+            font-size: 13px;
+            font-weight: 700;
+            color: #0f172a;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 10px;
+            background: #ffffff;
+            border: 1px dashed rgba(15, 23, 42, 0.3);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .month-tab-unlock:hover {
+            background: #0f172a;
+            color: #ffffff;
+            border-style: solid;
+        }
+
+        /* Unlock Banner */
+        .unlock-banner {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 22px;
+            padding: 28px 32px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .unlock-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .unlock-banner h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 6px;
+        }
+
+        .unlock-banner p {
+            font-size: 14px;
+            color: var(--text-muted);
+            max-width: 560px;
+            line-height: 1.5;
+        }
+
+        .btn-unlock-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--accent-dark);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 600;
+            border-radius: 12px;
+            white-space: nowrap;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+        }
+
+        .btn-unlock-cta:hover {
+            background: var(--accent-dark-hover);
+            transform: translateY(-1px);
+        }
+
+        /* Warning/Notice Banner */
+        .alert-banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            color: #92400e;
+            padding: 14px 20px;
+            border-radius: 14px;
+            margin-bottom: 24px;
+            font-size: 13.5px;
+        }
+
+        /* Sequential Ladder Tasks Stack */
+        .tasks-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .task-card {
+            background: var(--surface-glass);
+            backdrop-filter: blur(28px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 22px;
+            padding: 28px 32px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.01);
+        }
+
+        .task-card:hover {
+            border-color: var(--border-hover);
+            background: var(--surface-glass-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.07);
+        }
+
+        .task-card.completed {
+            opacity: 0.65;
+            background: rgba(241, 245, 249, 0.7);
+            border-color: var(--border-subtle);
+            transform: none !important;
+        }
+
+        .task-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 16px;
+        }
+
+        .task-header-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            flex: 1;
+        }
+
+        /* Checkbox */
+        .check-btn {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            border-radius: 10px;
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-top: 2px;
+        }
+
+        .check-btn:hover {
+            border-color: var(--accent-dark);
+            transform: scale(1.08);
+        }
+
+        .task-card.completed .check-btn {
+            background: var(--accent-dark);
+            border-color: var(--accent-dark);
+        }
+
+        .task-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .tag-day {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 6px;
+            background: var(--accent-dark);
+            color: #ffffff;
+        }
+
+        .tag-week {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .tag-skill {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-heading);
+            letter-spacing: 0.02em;
+        }
+
+        .task-title {
+            font-size: 18.5px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-heading);
+            line-height: 1.35;
+        }
+
+        .task-card.completed .task-title {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        /* Mission Brief */
+        .mission-brief-box {
+            margin-left: 48px;
+            margin-bottom: 18px;
+            padding: 14px 18px;
+            background: #f1f5f9;
+            border-left: 3px solid var(--accent-dark);
+            border-radius: 4px 12px 12px 4px;
+            font-size: 13.5px;
+            line-height: 1.55;
+            color: var(--text-body);
+        }
+
+        .mission-brief-box strong {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-heading);
+            margin-bottom: 4px;
+        }
+
+        /* 2-Column Grid */
+        .task-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-left: 48px;
+            margin-bottom: 18px;
+        }
+
+        .grid-box {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 16px 18px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+        }
+
+        .grid-box-header {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .grid-box-text {
+            font-size: 13.5px;
+            line-height: 1.5;
+            color: var(--text-body);
+        }
+
+        /* Resource & Platform Card */
+        .resource-card {
+            margin-left: 48px;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+        }
+
+        .resource-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .platform-badge {
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: #0f172a;
+            color: #ffffff;
+            white-space: nowrap;
+        }
+
+        .resource-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-heading);
+        }
+
+        .resource-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .platform-instruction-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-body);
+        }
+
+        .platform-instruction-box strong {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-heading);
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .btn-launch-resource {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-heading);
+            text-decoration: none;
+            padding: 8px 18px;
+            background: #f1f5f9;
+            border: 1px solid var(--border-subtle);
+            border-radius: 9px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-launch-resource:hover {
+            background: var(--accent-dark);
+            color: #ffffff;
+            border-color: var(--accent-dark);
+        }
+
+        /* Bottom Finish Card */
+        .bottom-banner {
+            margin-top: 48px;
+            text-align: center;
+            padding: 36px;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 24px;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .bottom-banner h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 8px;
+        }
+
+        .bottom-banner p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+        }
+
+        @media (max-width: 800px) {
+            .nav { padding: 14px 20px; }
+            .container { padding: 20px 16px 0; }
+            .header-top { flex-direction: column; }
+            .task-header { flex-direction: column; }
+            .mission-brief-box, .task-grid-2, .resource-card { margin-left: 0; }
+            .task-grid-2 { grid-template-columns: 1fr; }
+            .resource-card-top { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-light ambient-top"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-left">
+            <a href="/dashboard" class="nav-back">← Dashboard</a>
+            <span class="nav-tag">{{ chosen_career }}</span>
+        </div>
+        <div class="nav-right">
+            <div class="streak-pill">
+                <span id="navStreak">{{ streak_count }} Day Streak</span>
+            </div>
+            <a href="/finish_onboarding" class="btn-finish">Enter Command Center →</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        
+        <!-- Month Tabs Navigation -->
+        {% if unlocked_months|length > 1 or can_unlock_next %}
+        <div class="month-nav-row">
+            <div class="month-tabs">
+                {% for m in unlocked_months %}
+                <a href="/start_roadmap?month={{ m }}" class="month-tab {% if m == current_month %}active{% endif %}">
+                    Month {{ m }} (Days {{ (m - 1) * 30 + 1 }}–{{ m * 30 }})
+                </a>
+                {% endfor %}
+                {% if can_unlock_next and max_unlocked_month < 6 %}
+                <a href="/unlock_next_month" class="month-tab-unlock">
+                    + Unlock Month {{ next_month_num }}
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Completion Required Notice -->
+        {% if need_completion %}
+        <div class="alert-banner">
+            <div>
+                <strong>Prerequisite Incomplete:</strong> You must complete all 30 missions of Month {{ max_unlocked_month }} before Month {{ next_month_num }} can be unlocked!
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Milestone Unlock Banner -->
+        <div class="unlock-banner" id="unlockBanner" style="display: {% if can_unlock_next and current_month == max_unlocked_month %}flex{% else %}none{% endif %};">
+            <div class="unlock-banner-info">
+                <span class="unlock-badge">Month {{ max_unlocked_month }} Complete</span>
+                <h3>Unlock Month {{ next_month_num }} Curriculum</h3>
+                <p>All 30 missions conquered! Pocket Mentor will synthesize your Month {{ max_unlocked_month }} accomplishments and architect Month {{ next_month_num }} (Days {{ (next_month_num - 1) * 30 + 1 }}–{{ next_month_num * 30 }}) with zero repeated topics.</p>
+            </div>
+            <a href="/unlock_next_month" class="btn-unlock-cta">
+                Generate Month {{ next_month_num }} Action Plan →
+            </a>
+        </div>
+
+        <!-- Hero Command Panel -->
+        <div class="header-panel">
+            <div class="header-top">
+                <div>
+                    <div class="eyebrow">
+                        <span class="dot"></span> Month {{ current_month }} • 30-Day Step-by-Step Curriculum
+                    </div>
+                    <h1>Daily Action Blueprint</h1>
+                    <p>Strict sequential growth ladder designed for <strong>{{ chosen_career }}</strong>. Every single day unlocks the next with curated primary sources and hands-on deliverables.</p>
+                </div>
+                <div>
+                    <a href="/finish_onboarding" class="btn-finish">Go to Main Page →</a>
+                </div>
+            </div>
+
+            <div class="progress-bar-wrap">
+                <div class="progress-meta">
+                    <span>Month {{ current_month }} Completed: <strong id="progressStats">{{ completed_count }} of {{ total_tasks }}</strong></span>
+                    <span id="percentText">
+                        {% if total_tasks > 0 %}
+                            {{ ((completed_count / total_tasks) * 100)|round|int }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressFill" style="width: {% if total_tasks > 0 %}{{ ((completed_count / total_tasks) * 100)|round|int }}%{% else %}0%{% endif %};"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls: Week Switcher & Status Filter -->
+        <div class="controls-bar">
+            
+            <div class="filter-row">
+                <div class="pills-group" id="weekFilters">
+                    <button type="button" class="pill-btn active" onclick="filterWeek('all', this)">All Days</button>
+                    <button type="button" class="pill-btn" onclick="filterWeek(1, this)">Week 1: Foundations</button>
+                    <button type="button" class="pill-btn" onclick="filterWeek(2, this)">Week 2: Core Workflows</button>
+                    <button type="button" class="pill-btn" onclick="filterWeek(3, this)">Week 3: Applied Systems</button>
+                    <button type="button" class="pill-btn" onclick="filterWeek(4, this)">Week 4: Capstone & Review</button>
+                </div>
+
+                <a href="/regenerate_daily_tasks?month={{ current_month }}" class="btn-refresh" title="Regenerate plan with updated AI prompt">
+                    Regenerate Plan
+                </a>
+            </div>
+
+            <div class="filter-row">
+                <div class="pills-group" id="statusFilters">
+                    <button type="button" class="pill-btn active" onclick="filterStatus('all', this)">All Statuses</button>
+                    <button type="button" class="pill-btn" onclick="filterStatus('pending', this)">Pending (<span id="pendingCount">{{ total_tasks - completed_count }}</span>)</button>
+                    <button type="button" class="pill-btn" onclick="filterStatus('completed', this)">Completed (<span id="completedBadge">{{ completed_count }}</span>)</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Task Stack -->
+        <div class="tasks-stack" id="tasksList">
+            {% for item in roadmap.days %}
+            <div class="task-card {% if item.completed == 1 %}completed{% endif %}" 
+                 id="card-{{ item.id }}" 
+                 data-day="{{ item.day }}" 
+                 data-week="{{ item.week }}" 
+                 data-week-rel="{{ [((item.day - 1) % 30 // 7) + 1, 4]|min }}"
+                 data-status="{% if item.completed == 1 %}completed{% else %}pending{% endif %}">
+                
+                <div class="task-header">
+                    <div class="task-header-left">
+                        <button type="button" class="check-btn" onclick="toggleTask({{ item.id }})" title="Mark complete and build streak">
+                            <svg id="icon-{{ item.id }}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="display: {% if item.completed == 1 %}block{% else %}none{% endif %};">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </button>
+                        <div>
+                            <div class="task-meta-row">
+                                <span class="tag-day">DAY {{ "%02d" % item.day }}</span>
+                                <span class="tag-week">• WEEK {{ item.week }}</span>
+                                <span class="tag-skill">• {{ item.skill_focus }}</span>
+                            </div>
+                            <h3 class="task-title">{{ item.task }}</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mission Context Brief -->
+                <div class="mission-brief-box">
+                    <strong>Sequential Purpose</strong>
+                    {{ item.mission_brief }}
+                </div>
+
+                <!-- 2-Column Grid -->
+                <div class="task-grid-2">
+                    <div class="grid-box">
+                        <div class="grid-box-header">
+                            Hands-on Deliverable
+                        </div>
+                        <div class="grid-box-text">
+                            {{ item.mini_output }}
+                        </div>
+                    </div>
+
+                    <div class="grid-box">
+                        <div class="grid-box-header">
+                            Conceptual Challenge
+                        </div>
+                        <div class="grid-box-text">
+                            {{ item.reflection_question }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Curated Resource & Explicit Platform Instruction -->
+                <div class="resource-card">
+                    <div class="resource-card-top">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="platform-badge">{{ item.platform }}</span>
+                            <span class="resource-name">{{ item.resource_title }}</span>
+                        </div>
+                        <span class="resource-meta">{{ item.estimated_minutes }}</span>
+                    </div>
+
+                    <div class="platform-instruction-box">
+                        <strong>Action on Platform:</strong> {{ item.platform_instruction }}
+                    </div>
+
+                    <a href="{{ item.resource_url }}" target="_blank" rel="noopener noreferrer" class="btn-launch-resource">
+                        Open {{ item.platform }} Resource ↗
+                    </a>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Bottom Finish Card -->
+        <div class="bottom-banner">
+            <h3>You're All Set to Start Day 1</h3>
+            <p>Your step-by-step curriculum is locked in. Enter the command center to mark your daily tasks, maintain your streak, and see daily industry advances.</p>
+            <a href="/finish_onboarding" class="btn-finish" style="padding: 13px 32px; font-size: 14px;">Complete Setup & Go to Main Page →</a>
+        </div>
+
+    </main>
+
+    <script>
+        let currentWeekFilter = 'all';
+        let currentStatusFilter = 'all';
+
+        function filterWeek(week, btn) {
+            currentWeekFilter = week;
+            document.querySelectorAll('#weekFilters .pill-btn').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+        }
+
+        function filterStatus(status, btn) {
+            currentStatusFilter = status;
+            document.querySelectorAll('#statusFilters .pill-btn').forEach(el => el.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const cards = document.querySelectorAll('.task-card');
+            cards.forEach(card => {
+                const cardWeek = card.getAttribute('data-week-rel');
+                const cardStatus = card.getAttribute('data-status');
+
+                const weekMatches = (currentWeekFilter === 'all' || cardWeek == currentWeekFilter);
+                const statusMatches = (currentStatusFilter === 'all' || cardStatus === currentStatusFilter);
+
+                if (weekMatches && statusMatches) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        async function toggleTask(taskId) {
+            try {
+                const response = await fetch(`/api/toggle_task/${taskId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    const card = document.getElementById(`card-${taskId}`);
+                    const icon = document.getElementById(`icon-${taskId}`);
+                    const navStreak = document.getElementById('navStreak');
+                    const progressStats = document.getElementById('progressStats');
+                    const percentText = document.getElementById('percentText');
+                    const progressFill = document.getElementById('progressFill');
+                    const pendingCount = document.getElementById('pendingCount');
+                    const completedBadge = document.getElementById('completedBadge');
+
+                    if (data.completed === 1) {
+                        card.classList.add('completed');
+                        card.setAttribute('data-status', 'completed');
+                        icon.style.display = 'block';
+                    } else {
+                        card.classList.remove('completed');
+                        card.setAttribute('data-status', 'pending');
+                        icon.style.display = 'none';
+                    }
+
+                    const activeComp = (data.month_completed_count !== undefined) ? data.month_completed_count : data.completed_count;
+                    const activeTot = (data.month_total !== undefined) ? data.month_total : data.total_tasks;
+
+                    navStreak.textContent = `${data.streak_count} Day Streak`;
+                    progressStats.textContent = `${activeComp} of ${activeTot}`;
+                    const percent = activeTot > 0 ? Math.round((activeComp / activeTot) * 100) : 0;
+                    percentText.textContent = `${percent}%`;
+                    progressFill.style.width = `${percent}%`;
+
+                    if (completedBadge) completedBadge.textContent = activeComp;
+                    if (pendingCount) pendingCount.textContent = activeTot - activeComp;
+
+                    // Live Unlock Banner Trigger when month is completed
+                    const ub = document.getElementById('unlockBanner');
+                    if (ub) {
+                        if (data.completed_count === data.total_tasks) {
+                            ub.style.display = 'flex';
+                            ub.scrollIntoView({ behavior: 'smooth' });
+                        } else {
+                            // If this isn't an already unlocked prior month, hide banner if untoggled
+                            if ('{{ can_unlock_next }}' !== 'True') {
+                                ub.style.display = 'none';
+                            }
+                        }
+                    }
+
+                    applyFilters();
+                }
+            } catch (err) {
+                console.error("Failed to toggle task:", err);
+            }
+        }
+    </script>
+
+</body>
+</html>

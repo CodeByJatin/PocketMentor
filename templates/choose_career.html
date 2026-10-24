@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pocket Mentor | Select Career Track</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-canvas: #f8fafc;
+            --surface-glass: rgba(255, 255, 255, 0.88);
+            --border-subtle: rgba(15, 23, 42, 0.08);
+            --border-hover: rgba(15, 23, 42, 0.16);
+            --text-heading: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --accent-dark: #0f172a;
+            --accent-dark-hover: #1e293b;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-body);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 32px;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .ambient-light {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(140px);
+        }
+
+        .ambient-top {
+            width: 800px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(226, 232, 240, 0.7) 0%, transparent 70%);
+            top: -140px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .glass-card {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1280px;
+            background: var(--surface-glass);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 28px;
+            padding: 48px 56px;
+            box-shadow: 0 16px 45px -8px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .step-pill {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: var(--accent-dark);
+            color: #ffffff;
+            margin-bottom: 14px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 8px;
+            color: var(--text-heading);
+            line-height: 1.25;
+        }
+
+        .header p {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.55;
+            margin-bottom: 30px;
+            max-width: 800px;
+        }
+
+        .options-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 26px;
+        }
+
+        .career-option {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 24px;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .career-option:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.06);
+        }
+
+        .career-option.selected {
+            border-color: var(--accent-dark);
+            box-shadow: 0 0 0 2px var(--accent-dark);
+        }
+
+        .option-top-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .career-option input[type="radio"] {
+            margin-top: 4px;
+            accent-color: var(--accent-dark);
+            cursor: pointer;
+            transform: scale(1.15);
+        }
+
+        .option-text h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 6px;
+            letter-spacing: -0.01em;
+        }
+
+        .option-text p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 960px) {
+            body { padding: 20px 14px; }
+            .glass-card { padding: 30px 20px; }
+            .options-list { grid-template-columns: 1fr; }
+        }
+        }
+
+        .career-option.selected {
+            border-color: var(--accent-dark);
+            background: #f8fafc;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+        }
+
+        .custom-input {
+            margin-bottom: 26px;
+        }
+
+        .custom-input label {
+            display: block;
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .custom-input input {
+            width: 100%;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-family: inherit;
+            font-size: 14px;
+            color: var(--text-heading);
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .custom-input input:focus {
+            border-color: var(--accent-dark);
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .btn-back {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-heading);
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 10px;
+            border: 1px solid var(--border-subtle);
+            background: #ffffff;
+            transition: all 0.2s;
+        }
+
+        .btn-back:hover {
+            border-color: var(--border-hover);
+        }
+
+        .btn-submit {
+            padding: 12px 24px;
+            background: var(--accent-dark);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: var(--accent-dark-hover);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-light ambient-top"></div>
+
+    <div class="glass-card">
+        <div class="header">
+            <span class="step-pill">Step 03 of 05 • Career Alignment</span>
+            <h1>Select Your Primary Career Path</h1>
+            <p>Your master roadmap and 30-day action plan will be engineered specifically around your chosen career direction.</p>
+        </div>
+
+        <form method="POST" action="/choose_career" id="chooseCareerForm" onsubmit="handleSubmit(event)">
+            <div class="options-list">
+                {% for track in suggested_tracks %}
+                <label class="career-option {% if loop.first %}selected{% endif %}" onclick="selectTrack(this)">
+                    <input type="radio" name="career_choice" value="{{ track.title }}" {% if loop.first %}checked{% endif %}>
+                    <div class="option-text">
+                        <h4>{{ track.title }}</h4>
+                        <p>{{ track.desc }}</p>
+                    </div>
+                </label>
+                {% endfor %}
+            </div>
+
+            <div class="custom-input">
+                <label for="custom_career">Or define a custom specialization</label>
+                <input type="text" id="custom_career" name="custom_career" placeholder="e.g., Autonomous Systems Engineer, Cloud Security Architect..." onfocus="clearRadio()">
+            </div>
+
+            <div class="actions">
+                <a href="/career" class="btn-back">← Review Diagnosis</a>
+                <button type="submit" id="submitBtn" class="btn-submit">Confirm Path & Build Master Roadmap →</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function selectTrack(element) {
+            document.querySelectorAll('.career-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('custom_career').value = '';
+        }
+
+        function clearRadio() {
+            document.querySelectorAll('.career-option').forEach(el => {
+                el.classList.remove('selected');
+                el.querySelector('input').checked = false;
+            });
+        }
+
+        function handleSubmit(e) {
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = `Generating Master Roadmap...`;
+            btn.style.opacity = '0.85';
+            btn.style.pointerEvents = 'none';
+        }
+    </script>
+
+</body>
+</html>

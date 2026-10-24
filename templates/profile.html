@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pocket Mentor | Set Up Your Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-canvas: #f8fafc;
+            --surface-glass: rgba(255, 255, 255, 0.94);
+            --surface-hover: #ffffff;
+            --border-subtle: rgba(15, 23, 42, 0.08);
+            --border-hover: rgba(15, 23, 42, 0.18);
+            --border-focus: #0f172a;
+            --text-heading: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --text-light: #94a3b8;
+            --accent-dark: #0f172a;
+            --accent-dark-hover: #1e293b;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-body);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 32px;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .ambient-light {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(140px);
+        }
+
+        .ambient-1 {
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(226, 232, 240, 0.7) 0%, transparent 70%);
+            top: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .glass-card {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1240px;
+            background: var(--surface-glass);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 28px;
+            padding: 48px 56px;
+            box-shadow: 0 16px 45px -8px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .step-pill {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: var(--accent-dark);
+            color: #ffffff;
+            margin-bottom: 14px;
+        }
+
+        .header {
+            margin-bottom: 28px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 8px;
+            color: var(--text-heading);
+            line-height: 1.25;
+        }
+
+        .header p {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.55;
+            max-width: 900px;
+        }
+
+        /* Form Layout */
+        .form-section {
+            margin-bottom: 28px;
+        }
+
+        .section-tag {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-heading);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .section-tag span.badge-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent-dark);
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .grid-dropdowns {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .col-span-1 {
+            grid-column: span 1;
+        }
+
+        .col-span-2 {
+            grid-column: span 2;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-heading);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .select-wrap {
+            position: relative;
+        }
+
+        select {
+            width: 100%;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 12px 38px 12px 16px;
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--text-heading);
+            outline: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        select:hover {
+            border-color: var(--border-hover);
+        }
+
+        select:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06);
+        }
+
+        .select-arrow {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            width: 14px;
+            height: 14px;
+            stroke: var(--text-muted);
+        }
+
+        textarea {
+            width: 100%;
+            height: 160px;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 16px 18px;
+            font-family: inherit;
+            font-size: 14px;
+            color: var(--text-heading);
+            outline: none;
+            resize: vertical;
+            transition: all 0.2s ease;
+            line-height: 1.6;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        textarea:hover {
+            border-color: var(--border-hover);
+        }
+
+        textarea:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06);
+        }
+
+        textarea::placeholder {
+            color: var(--text-light);
+            font-size: 13.5px;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-top: 4px;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 28px;
+            gap: 16px;
+        }
+
+        .btn-cancel {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-heading);
+            text-decoration: none;
+            padding: 13px 22px;
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+            background: #ffffff;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-cancel:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-submit {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: var(--accent-dark);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+        }
+
+        .btn-submit:hover {
+            background: var(--accent-dark-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
+        }
+
+        @media (max-width: 1024px) {
+            .grid-dropdowns {
+                grid-template-columns: 1fr 1fr;
+            }
+            .col-span-1, .col-span-2 {
+                grid-column: span 1;
+            }
+            .form-group.full-width-tablet {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 20px 12px; }
+            .glass-card { padding: 30px 20px; border-radius: 20px; }
+            .grid-dropdowns { grid-template-columns: 1fr; }
+            .col-span-1, .col-span-2 { grid-column: 1 / -1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-light ambient-1"></div>
+
+    <div class="glass-card">
+        <div class="header">
+            <span class="step-pill">Step 01 of 05 • Profile Genesis</span>
+            <h1>Define Your Career Baseline & Goals</h1>
+            <p>Select your core parameters and share your personal story. Pocket Mentor uses both to diagnose blind spots, identify unfair strengths, and craft your daily milestones.</p>
+        </div>
+
+        <form method="POST" action="/create_profile">
+
+            <!-- Section 1: Dropdown Questions for Basic Things -->
+            <div class="form-section">
+                <div class="section-tag">
+                    <span class="badge-num">1</span> Core Parameters (Select via Dropdowns)
+                </div>
+
+                <div class="grid-dropdowns">
+                    
+                    <!-- 1. Primary Field / Discipline -->
+                    <div class="form-group col-span-1">
+                        <label for="primary_field">Primary Field / Discipline</label>
+                        <div class="select-wrap">
+                            <select id="primary_field" name="primary_field" required>
+                                <option value="Software Engineering & Web Systems" {% if profile and profile.primary_field == 'Software Engineering & Web Systems' %}selected{% endif %}>Software Engineering & Web Systems</option>
+                                <option value="AI, Machine Learning & Data Science" {% if profile and profile.primary_field == 'AI, Machine Learning & Data Science' %}selected{% endif %}>AI, Machine Learning & Data Science</option>
+                                <option value="UI/UX & Product Design" {% if profile and profile.primary_field == 'UI/UX & Product Design' %}selected{% endif %}>UI/UX & Product Design</option>
+                                <option value="Product Management & Tech Strategy" {% if profile and profile.primary_field == 'Product Management & Tech Strategy' %}selected{% endif %}>Product Management & Tech Strategy</option>
+                                <option value="Business, Finance & Venture Operations" {% if profile and profile.primary_field == 'Business, Finance & Venture Operations' %}selected{% endif %}>Business, Finance & Venture Operations</option>
+                                <option value="Cybersecurity & Systems Administration" {% if profile and profile.primary_field == 'Cybersecurity & Systems Administration' %}selected{% endif %}>Cybersecurity & Systems Administration</option>
+                                <option value="Marketing, Brand & Growth Engineering" {% if profile and profile.primary_field == 'Marketing, Brand & Growth Engineering' %}selected{% endif %}>Marketing, Brand & Growth Engineering</option>
+                                <option value="Creative Direction, 3D & Digital Media" {% if profile and profile.primary_field == 'Creative Direction, 3D & Digital Media' %}selected{% endif %}>Creative Direction, 3D & Digital Media</option>
+                                <option value="Healthcare, Sciences & Research" {% if profile and profile.primary_field == 'Healthcare, Sciences & Research' %}selected{% endif %}>Healthcare, Sciences & Research</option>
+                                <option value="Other / Multidisciplinary Exploration" {% if profile and profile.primary_field == 'Other / Multidisciplinary Exploration' %}selected{% endif %}>Other / Multidisciplinary Track</option>
+                            </select>
+                            <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- 2. Current Career Stage / Experience -->
+                    <div class="form-group col-span-1">
+                        <label for="experience_level">Current Experience Level</label>
+                        <div class="select-wrap">
+                            <select id="experience_level" name="experience_level" required>
+                                <option value="Complete Beginner (Starting from scratch)" {% if profile and profile.experience_level == 'Complete Beginner (Starting from scratch)' %}selected{% endif %}>Complete Beginner (Starting from scratch)</option>
+                                <option value="Student / Self-Taught Explorer (< 1 yr)" {% if profile and profile.experience_level == 'Student / Self-Taught Explorer (< 1 yr)' %}selected{% endif %}>Student / Self-Taught Explorer (&lt; 1 yr)</option>
+                                <option value="Junior Practitioner (1–2 yrs experience)" {% if profile and profile.experience_level == 'Junior Practitioner (1–2 yrs experience)' %}selected{% endif %}>Junior Practitioner (1–2 yrs experience)</option>
+                                <option value="Mid-Level Specialist (3–5 yrs experience)" {% if profile and profile.experience_level == 'Mid-Level Specialist (3–5 yrs experience)' %}selected{% endif %}>Mid-Level Specialist (3–5 yrs experience)</option>
+                                <option value="Senior / Lead Practitioner (5+ yrs experience)" {% if profile and profile.experience_level == 'Senior / Lead Practitioner (5+ yrs experience)' %}selected{% endif %}>Senior / Lead Practitioner (5+ yrs experience)</option>
+                                <option value="Career Switcher (Transitioning from another field)" {% if profile and profile.experience_level == 'Career Switcher (Transitioning from another field)' %}selected{% endif %}>Career Switcher (Pivoting into new domain)</option>
+                            </select>
+                            <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- 3. Primary Milestone Goal -->
+                    <div class="form-group col-span-1">
+                        <label for="primary_goal">Primary Milestone Goal</label>
+                        <div class="select-wrap">
+                            <select id="primary_goal" name="primary_goal" required>
+                                <option value="Land a High-Impact Job / First Opportunity" {% if profile and profile.primary_goal == 'Land a High-Impact Job / First Opportunity' %}selected{% endif %}>Land a High-Impact Job / First Opportunity</option>
+                                <option value="Advance to Senior / Staff / Lead Level" {% if profile and profile.primary_goal == 'Advance to Senior / Staff / Lead Level' %}selected{% endif %}>Advance to Senior / Staff / Lead Level</option>
+                                <option value="Master Deep Fundamentals & Fill Critical Gaps" {% if profile and profile.primary_goal == 'Master Deep Fundamentals & Fill Critical Gaps' %}selected{% endif %}>Master Deep Fundamentals & Fill Critical Gaps</option>
+                                <option value="Build & Showcase a Production Portfolio" {% if profile and profile.primary_goal == 'Build & Showcase a Production Portfolio' %}selected{% endif %}>Build & Showcase a Production Portfolio</option>
+                                <option value="Launch an Independent Product / Venture" {% if profile and profile.primary_goal == 'Launch an Independent Product / Venture' %}selected{% endif %}>Launch an Independent Product / Venture</option>
+                                <option value="Complete Pivot into a High-Growth Domain" {% if profile and profile.primary_goal == 'Complete Pivot into a High-Growth Domain' %}selected{% endif %}>Complete Pivot into a High-Growth Domain</option>
+                            </select>
+                            <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- 4. Daily Time Commitment -->
+                    <div class="form-group col-span-1">
+                        <label for="time_commitment">Daily Time Commitment</label>
+                        <div class="select-wrap">
+                            <select id="time_commitment" name="time_commitment" required>
+                                <option value="30 to 45 mins / day (Sustainable Habit)" {% if profile and profile.time_commitment == '30 to 45 mins / day (Sustainable Habit)' %}selected{% endif %}>30 to 45 mins / day (Sustainable Habit)</option>
+                                <option value="1 to 2 hours / day (Steady Intensive Focus)" {% if profile and (profile.time_commitment == '1 to 2 hours / day (Steady Intensive Focus)' or not profile.time_commitment) %}selected{% endif %}>1 to 2 hours / day (Steady Intensive Focus)</option>
+                                <option value="2 to 3 hours / day (Deep Immersion)" {% if profile and profile.time_commitment == '2 to 3 hours / day (Deep Immersion)' %}selected{% endif %}>2 to 3 hours / day (Deep Immersion)</option>
+                                <option value="Full-Time Dedicated (4+ hours / day)" {% if profile and profile.time_commitment == 'Full-Time Dedicated (4+ hours / day)' %}selected{% endif %}>Full-Time Dedicated (4+ hours / day)</option>
+                            </select>
+                            <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- 5. Preferred Learning Delivery -->
+                    <div class="form-group col-span-2 full-width-tablet">
+                        <label for="learning_style">Preferred Learning Delivery</label>
+                        <div class="select-wrap">
+                            <select id="learning_style" name="learning_style" required>
+                                <option value="Hands-On Project & Deliverable-Driven (Build real outputs)" {% if profile and profile.learning_style == 'Hands-On Project & Deliverable-Driven (Build real outputs)' %}selected{% endif %}>Hands-On Project & Deliverable-Driven (Build real verifiable outputs daily)</option>
+                                <option value="Official Documentation & Deep Theory (Read primary specs & sources)" {% if profile and profile.learning_style == 'Official Documentation & Deep Theory (Read primary specs & sources)' %}selected{% endif %}>Official Documentation & Deep Theory (Read primary specs, docs, and standards)</option>
+                                <option value="Targeted Problem-Solving Drills (Labs, challenges & katas)" {% if profile and profile.learning_style == 'Targeted Problem-Solving Drills (Labs, challenges & katas)' %}selected{% endif %}>Targeted Problem-Solving Drills (Labs, interactive challenges & katas)</option>
+                                <option value="Balanced Multi-Platform Mix (Docs + Labs + Code/Design Exercises)" {% if profile and (profile.learning_style == 'Balanced Multi-Platform Mix (Docs + Labs + Code/Design Exercises)' or not profile.learning_style) %}selected{% endif %}>Balanced Multi-Platform Mix (Docs + Interactive Exercises + Mini-projects)</option>
+                            </select>
+                            <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Section 2: Paragraph Form Narrative -->
+            <div class="form-section" style="margin-bottom: 0;">
+                <div class="section-tag">
+                    <span class="badge-num">2</span> Personal Narrative & Context (Paragraph)
+                </div>
+
+                <div class="form-group">
+                    <label for="about_narrative">Your Background, Current Tools & Specific Ambitions</label>
+                    <textarea id="about_narrative" name="about_narrative" required placeholder="Example: I am an aspiring product strategist with 2 years of experience in user research. I am comfortable with Figma, SQL, and user interviews, but struggle with financial modeling and technical system design. I want to build a career leading AI product teams. Give me candid advice on my blind spots and guide me step-by-step..."></textarea>
+                    <span class="help-text">Share your specific tools, previous education, what you have built, and what bottlenecks currently stall your progress.</span>
+                </div>
+            </div>
+
+            <div class="actions">
+                {% if profile and profile.about %}
+                <a href="/dashboard" class="btn-cancel">← Cancel & Return to Dashboard</a>
+                {% else %}
+                <div></div>
+                {% endif %}
+                <button type="submit" class="btn-submit">
+                    Save Profile & Diagnose Career →
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+</body>
+</html>

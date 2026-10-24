@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pocket Mentor | Career Blueprint</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-canvas: #f8fafc;
+            --surface-glass: rgba(255, 255, 255, 0.88);
+            --border-subtle: rgba(15, 23, 42, 0.08);
+            --border-hover: rgba(15, 23, 42, 0.16);
+            --text-heading: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --accent-dark: #0f172a;
+            --accent-dark-hover: #1e293b;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-body);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 90px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .ambient-light {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(140px);
+        }
+
+        .ambient-top {
+            width: 700px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(226, 232, 240, 0.6) 0%, transparent 70%);
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 40px;
+            background: rgba(248, 250, 252, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav-back {
+            color: var(--text-heading);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 7px 14px;
+            border-radius: 9px;
+            border: 1px solid var(--border-subtle);
+            background: #ffffff;
+            transition: all 0.2s;
+        }
+
+        .nav-back:hover {
+            border-color: var(--border-hover);
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 40px 32px 0;
+        }
+
+        .step-pill {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: var(--accent-dark);
+            color: #ffffff;
+            margin-bottom: 14px;
+        }
+
+        .header-panel {
+            background: var(--surface-glass);
+            backdrop-filter: blur(28px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 26px;
+            padding: 36px 44px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .header-panel h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 6px;
+            color: var(--text-heading);
+        }
+
+        .header-panel p {
+            font-size: 15px;
+            color: var(--text-muted);
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 26px;
+            background: var(--accent-dark);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 13.5px;
+            font-weight: 600;
+            border-radius: 12px;
+            white-space: nowrap;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+        }
+
+        .btn-action:hover {
+            background: var(--accent-dark-hover);
+            transform: translateY(-1px);
+        }
+
+        .content-card {
+            background: var(--surface-glass);
+            backdrop-filter: blur(28px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 26px;
+            padding: 44px 52px;
+            line-height: 1.75;
+            font-size: 15px;
+            color: var(--text-body);
+            box-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .content-card h3 {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text-heading);
+            margin-top: 26px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .content-card h3:first-child {
+            margin-top: 0;
+        }
+
+        .content-card ul {
+            padding-left: 20px;
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .content-card li {
+            color: var(--text-body);
+        }
+
+        .content-card p {
+            color: var(--text-body);
+            margin-bottom: 16px;
+        }
+
+        .footer-cta {
+            margin-top: 36px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .header-panel { flex-direction: column; align-items: flex-start; }
+            .nav { padding: 14px 20px; }
+            .container { padding: 24px 16px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-light ambient-top"></div>
+
+    <nav class="nav">
+        {% if is_onboarded %}
+        <a href="/dashboard" class="nav-back">← Back to Dashboard</a>
+        <a href="/roadmap" class="btn-action">View Master Roadmap →</a>
+        {% else %}
+        <a href="/create_profile" class="nav-back">← Edit Profile</a>
+        <a href="/choose_career" class="btn-action">Choose Career Path →</a>
+        {% endif %}
+    </nav>
+
+    <main class="container">
+        
+        <div class="header-panel">
+            <div>
+                <span class="step-pill">{% if is_onboarded %}Career Blueprint Review{% else %}Step 02 of 05 • Candid Diagnosis{% endif %}</span>
+                <h1>Career Blueprint & Analysis</h1>
+                <p>Tailored candid assessment based on your current background and target ambition.</p>
+            </div>
+            {% if is_onboarded %}
+            <a href="/roadmap" class="btn-action">View Master Roadmap →</a>
+            {% else %}
+            <a href="/choose_career" class="btn-action">Next: Select Career Path →</a>
+            {% endif %}
+        </div>
+
+        <div class="content-card">
+            {{ result|safe }}
+        </div>
+
+        <div class="footer-cta">
+            {% if is_onboarded %}
+            <a href="/dashboard" class="btn-action">← Return to Dashboard</a>
+            {% else %}
+            <a href="/choose_career" class="btn-action">Next Step: Select Your Career Path →</a>
+            {% endif %}
+        </div>
+
+    </main>
+
+</body>
+</html>
