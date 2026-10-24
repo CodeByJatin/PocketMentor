@@ -6,15 +6,18 @@ import json
 import re
 import urllib.parse
 import time
+import os
 from datetime import date, datetime, timedelta
+from init_db import init_db
 
-GEMINI_API_KEY = "AIzaSyAyrghdEBHqvfhd5HXwp0o2bzl5FHQWxWM"
-GEMINI_MODEL = "gemini-3.6-flash"
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "AIzaSyAyrghdEBHqvfhd5HXwp0o2bzl5FHQWxWM")
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
 
 app = Flask(__name__)
-app.secret_key = "secret_key_here"
+app.secret_key = os.environ.get("SECRET_KEY", "pocket_mentor_production_secret_key_2026")
 
 DATABASE = "users.db"
+init_db(DATABASE)
 
 def get_db():
     conn = sqlite3.connect(DATABASE)
@@ -1527,4 +1530,5 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
