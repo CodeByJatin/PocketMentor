@@ -10,8 +10,14 @@ import os
 from datetime import date, datetime, timedelta
 from init_db import init_db
 
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "AIzaSyAyrghdEBHqvfhd5HXwp0o2bzl5FHQWxWM")
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash").strip()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "pocket_mentor_production_secret_key_2026")
@@ -39,7 +45,13 @@ def get_db():
 
 def call_gemini_api(prompt, json_mode=False, max_output_tokens=8192, temperature=0.2):
     """High-speed Gemini Client with zero-latency thinking budget, quota-aware fast failover, and fallback models."""
-    models_to_try = [GEMINI_MODEL, "gemini-2.5-flash", "gemini-3-flash-preview"]
+    api_key = os.environ.get("GEMINI_API_KEY", "").strip() or GEMINI_API_KEY
+    if not api_key:
+        print("[ERROR] GEMINI_API_KEY is missing. Please add GEMINI_API_KEY to your .env file or Render environment variables.")
+        return ""
+
+    model_name = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash").strip() or GEMINI_MODEL
+    models_to_try = [model_name, "gemini-2.5-flash", "gemini-3-flash-preview"]
     
     gen_config = {
         "temperature": temperature,
@@ -55,7 +67,7 @@ def call_gemini_api(prompt, json_mode=False, max_output_tokens=8192, temperature
     }
 
     for model in models_to_try:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={GEMINI_API_KEY}"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
         for attempt in range(2):
             try:
                 res = requests.post(url, json=payload, timeout=40)
@@ -67,10 +79,13 @@ def call_gemini_api(prompt, json_mode=False, max_output_tokens=8192, temperature
                         output_text = "".join([p.get("text", "") for p in parts if "text" in p]).strip()
                         if output_text:
                             return output_text
+                elif res.status_code == 403:
+                    print(f"Gemini API 403 Permission Denied: Key is reported leaked or invalid. Please update GEMINI_API_KEY in .env.")
+                    return ""
                 elif res.status_code == 429:
                     err_lower = res.text.lower()
                     if "quota" in err_lower or "exceeded" in err_lower:
-                        # Model quota exceeded; immediately fail over to next model without wasting time sleeping
+                        # Model quota exceeded; fail over to next model
                         break
                     time.sleep(1)
                 elif res.status_code == 503:
