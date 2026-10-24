@@ -278,6 +278,27 @@
             transform: translateY(-1px);
         }
 
+        .btn-secondary-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 20px;
+            background: #ffffff;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary-action:hover {
+            background: #fef2f2;
+            border-color: #f87171;
+        }
+
         .btn-submit {
             display: inline-flex;
             align-items: center;
@@ -327,9 +348,15 @@
 
     <div class="glass-card">
         <div class="header">
+            {% if is_onboarded %}
+            <span class="step-pill">Profile Settings • Edit Background</span>
+            <h1>Update Your Career Profile & Background</h1>
+            <p>Refine your parameters or update your personal narrative. Your dashboard, milestones, and mentor chatbot will immediately reflect your latest details.</p>
+            {% else %}
             <span class="step-pill">Step 01 of 05 • Profile Genesis</span>
             <h1>Define Your Career Baseline & Goals</h1>
             <p>Select your core parameters and share your personal story. Pocket Mentor uses both to diagnose blind spots, identify unfair strengths, and craft your daily milestones.</p>
+            {% endif %}
         </div>
 
         <form method="POST" action="/create_profile">
@@ -347,16 +374,16 @@
                         <label for="primary_field">Primary Field / Discipline</label>
                         <div class="select-wrap">
                             <select id="primary_field" name="primary_field" required>
-                                <option value="Software Engineering & Web Systems" {% if profile and profile.primary_field == 'Software Engineering & Web Systems' %}selected{% endif %}>Software Engineering & Web Systems</option>
-                                <option value="AI, Machine Learning & Data Science" {% if profile and profile.primary_field == 'AI, Machine Learning & Data Science' %}selected{% endif %}>AI, Machine Learning & Data Science</option>
-                                <option value="UI/UX & Product Design" {% if profile and profile.primary_field == 'UI/UX & Product Design' %}selected{% endif %}>UI/UX & Product Design</option>
-                                <option value="Product Management & Tech Strategy" {% if profile and profile.primary_field == 'Product Management & Tech Strategy' %}selected{% endif %}>Product Management & Tech Strategy</option>
-                                <option value="Business, Finance & Venture Operations" {% if profile and profile.primary_field == 'Business, Finance & Venture Operations' %}selected{% endif %}>Business, Finance & Venture Operations</option>
-                                <option value="Cybersecurity & Systems Administration" {% if profile and profile.primary_field == 'Cybersecurity & Systems Administration' %}selected{% endif %}>Cybersecurity & Systems Administration</option>
-                                <option value="Marketing, Brand & Growth Engineering" {% if profile and profile.primary_field == 'Marketing, Brand & Growth Engineering' %}selected{% endif %}>Marketing, Brand & Growth Engineering</option>
-                                <option value="Creative Direction, 3D & Digital Media" {% if profile and profile.primary_field == 'Creative Direction, 3D & Digital Media' %}selected{% endif %}>Creative Direction, 3D & Digital Media</option>
-                                <option value="Healthcare, Sciences & Research" {% if profile and profile.primary_field == 'Healthcare, Sciences & Research' %}selected{% endif %}>Healthcare, Sciences & Research</option>
-                                <option value="Other / Multidisciplinary Exploration" {% if profile and profile.primary_field == 'Other / Multidisciplinary Exploration' %}selected{% endif %}>Other / Multidisciplinary Track</option>
+                                <option value="Software Engineering & Web Systems" {% if selected_field == 'Software Engineering & Web Systems' or (not selected_field) %}selected{% endif %}>Software Engineering & Web Systems</option>
+                                <option value="AI, Machine Learning & Data Science" {% if selected_field == 'AI, Machine Learning & Data Science' %}selected{% endif %}>AI, Machine Learning & Data Science</option>
+                                <option value="UI/UX & Product Design" {% if selected_field == 'UI/UX & Product Design' %}selected{% endif %}>UI/UX & Product Design</option>
+                                <option value="Product Management & Tech Strategy" {% if selected_field == 'Product Management & Tech Strategy' %}selected{% endif %}>Product Management & Tech Strategy</option>
+                                <option value="Business, Finance & Venture Operations" {% if selected_field == 'Business, Finance & Venture Operations' %}selected{% endif %}>Business, Finance & Venture Operations</option>
+                                <option value="Cybersecurity & Systems Administration" {% if selected_field == 'Cybersecurity & Systems Administration' %}selected{% endif %}>Cybersecurity & Systems Administration</option>
+                                <option value="Marketing, Brand & Growth Engineering" {% if selected_field == 'Marketing, Brand & Growth Engineering' %}selected{% endif %}>Marketing, Brand & Growth Engineering</option>
+                                <option value="Creative Direction, 3D & Digital Media" {% if selected_field == 'Creative Direction, 3D & Digital Media' %}selected{% endif %}>Creative Direction, 3D & Digital Media</option>
+                                <option value="Healthcare, Sciences & Research" {% if selected_field == 'Healthcare, Sciences & Research' %}selected{% endif %}>Healthcare, Sciences & Research</option>
+                                <option value="Other / Multidisciplinary Exploration" {% if selected_field == 'Other / Multidisciplinary Exploration' %}selected{% endif %}>Other / Multidisciplinary Track</option>
                             </select>
                             <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -369,12 +396,12 @@
                         <label for="experience_level">Current Experience Level</label>
                         <div class="select-wrap">
                             <select id="experience_level" name="experience_level" required>
-                                <option value="Complete Beginner (Starting from scratch)" {% if profile and profile.experience_level == 'Complete Beginner (Starting from scratch)' %}selected{% endif %}>Complete Beginner (Starting from scratch)</option>
-                                <option value="Student / Self-Taught Explorer (< 1 yr)" {% if profile and profile.experience_level == 'Student / Self-Taught Explorer (< 1 yr)' %}selected{% endif %}>Student / Self-Taught Explorer (&lt; 1 yr)</option>
-                                <option value="Junior Practitioner (1–2 yrs experience)" {% if profile and profile.experience_level == 'Junior Practitioner (1–2 yrs experience)' %}selected{% endif %}>Junior Practitioner (1–2 yrs experience)</option>
-                                <option value="Mid-Level Specialist (3–5 yrs experience)" {% if profile and profile.experience_level == 'Mid-Level Specialist (3–5 yrs experience)' %}selected{% endif %}>Mid-Level Specialist (3–5 yrs experience)</option>
-                                <option value="Senior / Lead Practitioner (5+ yrs experience)" {% if profile and profile.experience_level == 'Senior / Lead Practitioner (5+ yrs experience)' %}selected{% endif %}>Senior / Lead Practitioner (5+ yrs experience)</option>
-                                <option value="Career Switcher (Transitioning from another field)" {% if profile and profile.experience_level == 'Career Switcher (Transitioning from another field)' %}selected{% endif %}>Career Switcher (Pivoting into new domain)</option>
+                                <option value="Complete Beginner (Starting from scratch)" {% if selected_experience == 'Complete Beginner (Starting from scratch)' or (not selected_experience) %}selected{% endif %}>Complete Beginner (Starting from scratch)</option>
+                                <option value="Student / Self-Taught Explorer (< 1 yr)" {% if selected_experience == 'Student / Self-Taught Explorer (< 1 yr)' %}selected{% endif %}>Student / Self-Taught Explorer (&lt; 1 yr)</option>
+                                <option value="Junior Practitioner (1–2 yrs experience)" {% if selected_experience == 'Junior Practitioner (1–2 yrs experience)' %}selected{% endif %}>Junior Practitioner (1–2 yrs experience)</option>
+                                <option value="Mid-Level Specialist (3–5 yrs experience)" {% if selected_experience == 'Mid-Level Specialist (3–5 yrs experience)' %}selected{% endif %}>Mid-Level Specialist (3–5 yrs experience)</option>
+                                <option value="Senior / Lead Practitioner (5+ yrs experience)" {% if selected_experience == 'Senior / Lead Practitioner (5+ yrs experience)' %}selected{% endif %}>Senior / Lead Practitioner (5+ yrs experience)</option>
+                                <option value="Career Switcher (Transitioning from another field)" {% if selected_experience == 'Career Switcher (Transitioning from another field)' %}selected{% endif %}>Career Switcher (Pivoting into new domain)</option>
                             </select>
                             <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -387,12 +414,12 @@
                         <label for="primary_goal">Primary Milestone Goal</label>
                         <div class="select-wrap">
                             <select id="primary_goal" name="primary_goal" required>
-                                <option value="Land a High-Impact Job / First Opportunity" {% if profile and profile.primary_goal == 'Land a High-Impact Job / First Opportunity' %}selected{% endif %}>Land a High-Impact Job / First Opportunity</option>
-                                <option value="Advance to Senior / Staff / Lead Level" {% if profile and profile.primary_goal == 'Advance to Senior / Staff / Lead Level' %}selected{% endif %}>Advance to Senior / Staff / Lead Level</option>
-                                <option value="Master Deep Fundamentals & Fill Critical Gaps" {% if profile and profile.primary_goal == 'Master Deep Fundamentals & Fill Critical Gaps' %}selected{% endif %}>Master Deep Fundamentals & Fill Critical Gaps</option>
-                                <option value="Build & Showcase a Production Portfolio" {% if profile and profile.primary_goal == 'Build & Showcase a Production Portfolio' %}selected{% endif %}>Build & Showcase a Production Portfolio</option>
-                                <option value="Launch an Independent Product / Venture" {% if profile and profile.primary_goal == 'Launch an Independent Product / Venture' %}selected{% endif %}>Launch an Independent Product / Venture</option>
-                                <option value="Complete Pivot into a High-Growth Domain" {% if profile and profile.primary_goal == 'Complete Pivot into a High-Growth Domain' %}selected{% endif %}>Complete Pivot into a High-Growth Domain</option>
+                                <option value="Land a High-Impact Job / First Opportunity" {% if selected_goal == 'Land a High-Impact Job / First Opportunity' or (not selected_goal) %}selected{% endif %}>Land a High-Impact Job / First Opportunity</option>
+                                <option value="Advance to Senior / Staff / Lead Level" {% if selected_goal == 'Advance to Senior / Staff / Lead Level' %}selected{% endif %}>Advance to Senior / Staff / Lead Level</option>
+                                <option value="Master Deep Fundamentals & Fill Critical Gaps" {% if selected_goal == 'Master Deep Fundamentals & Fill Critical Gaps' %}selected{% endif %}>Master Deep Fundamentals & Fill Critical Gaps</option>
+                                <option value="Build & Showcase a Production Portfolio" {% if selected_goal == 'Build & Showcase a Production Portfolio' %}selected{% endif %}>Build & Showcase a Production Portfolio</option>
+                                <option value="Launch an Independent Product / Venture" {% if selected_goal == 'Launch an Independent Product / Venture' %}selected{% endif %}>Launch an Independent Product / Venture</option>
+                                <option value="Complete Pivot into a High-Growth Domain" {% if selected_goal == 'Complete Pivot into a High-Growth Domain' %}selected{% endif %}>Complete Pivot into a High-Growth Domain</option>
                             </select>
                             <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -405,10 +432,10 @@
                         <label for="time_commitment">Daily Time Commitment</label>
                         <div class="select-wrap">
                             <select id="time_commitment" name="time_commitment" required>
-                                <option value="30 to 45 mins / day (Sustainable Habit)" {% if profile and profile.time_commitment == '30 to 45 mins / day (Sustainable Habit)' %}selected{% endif %}>30 to 45 mins / day (Sustainable Habit)</option>
-                                <option value="1 to 2 hours / day (Steady Intensive Focus)" {% if profile and (profile.time_commitment == '1 to 2 hours / day (Steady Intensive Focus)' or not profile.time_commitment) %}selected{% endif %}>1 to 2 hours / day (Steady Intensive Focus)</option>
-                                <option value="2 to 3 hours / day (Deep Immersion)" {% if profile and profile.time_commitment == '2 to 3 hours / day (Deep Immersion)' %}selected{% endif %}>2 to 3 hours / day (Deep Immersion)</option>
-                                <option value="Full-Time Dedicated (4+ hours / day)" {% if profile and profile.time_commitment == 'Full-Time Dedicated (4+ hours / day)' %}selected{% endif %}>Full-Time Dedicated (4+ hours / day)</option>
+                                <option value="30 to 45 mins / day (Sustainable Habit)" {% if selected_commitment == '30 to 45 mins / day (Sustainable Habit)' %}selected{% endif %}>30 to 45 mins / day (Sustainable Habit)</option>
+                                <option value="1 to 2 hours / day (Steady Intensive Focus)" {% if selected_commitment == '1 to 2 hours / day (Steady Intensive Focus)' or (not selected_commitment) %}selected{% endif %}>1 to 2 hours / day (Steady Intensive Focus)</option>
+                                <option value="2 to 3 hours / day (Deep Immersion)" {% if selected_commitment == '2 to 3 hours / day (Deep Immersion)' %}selected{% endif %}>2 to 3 hours / day (Deep Immersion)</option>
+                                <option value="Full-Time Dedicated (4+ hours / day)" {% if selected_commitment == 'Full-Time Dedicated (4+ hours / day)' %}selected{% endif %}>Full-Time Dedicated (4+ hours / day)</option>
                             </select>
                             <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -421,10 +448,10 @@
                         <label for="learning_style">Preferred Learning Delivery</label>
                         <div class="select-wrap">
                             <select id="learning_style" name="learning_style" required>
-                                <option value="Hands-On Project & Deliverable-Driven (Build real outputs)" {% if profile and profile.learning_style == 'Hands-On Project & Deliverable-Driven (Build real outputs)' %}selected{% endif %}>Hands-On Project & Deliverable-Driven (Build real verifiable outputs daily)</option>
-                                <option value="Official Documentation & Deep Theory (Read primary specs & sources)" {% if profile and profile.learning_style == 'Official Documentation & Deep Theory (Read primary specs & sources)' %}selected{% endif %}>Official Documentation & Deep Theory (Read primary specs, docs, and standards)</option>
-                                <option value="Targeted Problem-Solving Drills (Labs, challenges & katas)" {% if profile and profile.learning_style == 'Targeted Problem-Solving Drills (Labs, challenges & katas)' %}selected{% endif %}>Targeted Problem-Solving Drills (Labs, interactive challenges & katas)</option>
-                                <option value="Balanced Multi-Platform Mix (Docs + Labs + Code/Design Exercises)" {% if profile and (profile.learning_style == 'Balanced Multi-Platform Mix (Docs + Labs + Code/Design Exercises)' or not profile.learning_style) %}selected{% endif %}>Balanced Multi-Platform Mix (Docs + Interactive Exercises + Mini-projects)</option>
+                                <option value="Hands-On Project & Deliverable-Driven (Build real outputs)" {% if selected_learning_style == 'Hands-On Project & Deliverable-Driven (Build real outputs)' %}selected{% endif %}>Hands-On Project & Deliverable-Driven (Build real verifiable outputs daily)</option>
+                                <option value="Official Documentation & Deep Theory (Read primary specs & sources)" {% if selected_learning_style == 'Official Documentation & Deep Theory (Read primary specs & sources)' %}selected{% endif %}>Official Documentation & Deep Theory (Read primary specs, docs, and standards)</option>
+                                <option value="Targeted Problem-Solving Drills (Labs, challenges & katas)" {% if selected_learning_style == 'Targeted Problem-Solving Drills (Labs, challenges & katas)' %}selected{% endif %}>Targeted Problem-Solving Drills (Labs, interactive challenges & katas)</option>
+                                <option value="Balanced Multi-Platform Mix (Docs + Labs + Code/Design Exercises)" {% if selected_learning_style == 'Balanced Multi-Platform Mix (Docs + Labs + Code/Design Exercises)' or (not selected_learning_style) %}selected{% endif %}>Balanced Multi-Platform Mix (Docs + Interactive Exercises + Mini-projects)</option>
                             </select>
                             <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="6 9 12 15 18 9"></polyline>
@@ -443,20 +470,28 @@
 
                 <div class="form-group">
                     <label for="about_narrative">Your Background, Current Tools & Specific Ambitions</label>
-                    <textarea id="about_narrative" name="about_narrative" required placeholder="Example: I am an aspiring product strategist with 2 years of experience in user research. I am comfortable with Figma, SQL, and user interviews, but struggle with financial modeling and technical system design. I want to build a career leading AI product teams. Give me candid advice on my blind spots and guide me step-by-step..."></textarea>
+                    <textarea id="about_narrative" name="about_narrative" required placeholder="Example: I am an aspiring product strategist with 2 years of experience in user research. I am comfortable with Figma, SQL, and user interviews, but struggle with financial modeling and technical system design. I want to build a career leading AI product teams. Give me candid advice on my blind spots and guide me step-by-step...">{{ narrative }}</textarea>
                     <span class="help-text">Share your specific tools, previous education, what you have built, and what bottlenecks currently stall your progress.</span>
                 </div>
             </div>
 
             <div class="actions">
-                {% if profile and profile.about %}
+                {% if is_onboarded %}
                 <a href="/dashboard" class="btn-cancel">← Cancel & Return to Dashboard</a>
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <button type="submit" name="action_type" value="recalibrate" class="btn-secondary-action" onclick="return confirm('Recalibrating will reset your active roadmap and generate a new career diagnosis. Are you sure you want to proceed?');">
+                        Reset Roadmap & Re-diagnose
+                    </button>
+                    <button type="submit" name="action_type" value="save" class="btn-submit">
+                        Save Changes & Return to Dashboard →
+                    </button>
+                </div>
                 {% else %}
                 <div></div>
-                {% endif %}
-                <button type="submit" class="btn-submit">
+                <button type="submit" name="action_type" value="diagnose" class="btn-submit">
                     Save Profile & Diagnose Career →
                 </button>
+                {% endif %}
             </div>
 
         </form>

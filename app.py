@@ -23,9 +23,15 @@ def get_db():
         CREATE TABLE IF NOT EXISTS domain_pulses (
             user_id INTEGER PRIMARY KEY,
             pulse_json TEXT,
+            pulse_date TEXT,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
+    try:
+        conn.execute("ALTER TABLE profiles ADD COLUMN about_narrative TEXT")
+        conn.commit()
+    except Exception:
+        pass
     return conn
 
 def call_gemini_api(prompt, json_mode=False, max_output_tokens=8192, temperature=0.2):
@@ -337,15 +343,18 @@ def create_profile():
 
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute("SELECT id FROM users WHERE username=?", (session["user"],))
+    cursor.execute("SELECT id, onboarding_completed, chosen_career FROM users WHERE username=?", (session["user"],))
     user_row = cursor.fetchone()
     if not user_row:
         conn.close()
         session.clear()
         return redirect(url_for("index"))
     user_id = user_row["id"]
+    is_onboarded = bool(user_row["onboarding_completed"])
+    chosen_career = user_row["chosen_career"]
 
     if request.method == "POST":
+        action_type = request.form.get("action_type", "save")
         primary_field = request.form.get("primary_field", "").strip()
         experience_level = request.form.get("experience_level", "").strip()
         primary_goal = request.form.get("primary_goal", "").strip()
@@ -373,9 +382,14 @@ def create_profile():
 
         cursor.execute("DELETE FROM profiles WHERE user_id=?", (user_id,))
         cursor.execute("""
-            INSERT INTO profiles (user_id, about, primary_field, experience_level, primary_goal, time_commitment, learning_style)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (user_id, combined_about, primary_field, experience_level, primary_goal, time_commitment, learning_style))
+            INSERT INTO profiles (user_id, about, primary_field, experience_level, primary_goal, time_commitment, learning_style, about_narrative)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (user_id, combined_about, primary_field, experience_level, primary_goal, time_commitment, learning_style, narrative))
+
+        if is_onboarded and action_type != "recalibrate":
+            conn.commit()
+            conn.close()
+            return redirect(url_for("dashboard"))
 
         cursor.execute("DELETE FROM career_suggestions WHERE user_id=?", (user_id,))
         cursor.execute("DELETE FROM roadmaps WHERE user_id=?", (user_id,))
@@ -389,8 +403,63 @@ def create_profile():
 
     cursor.execute("SELECT * FROM profiles WHERE user_id=?", (user_id,))
     profile = cursor.fetchone()
+
+    narrative = ""
+    selected_field = ""
+    selected_experience = ""
+    selected_goal = ""
+    selected_commitment = ""
+    selected_learning_style = ""
+
+    if profile:
+        profile_dict = dict(profile)
+        if profile_dict.get("about_narrative"):
+            narrative = profile_dict["about_narrative"]
+        elif profile_dict.get("about"):
+            raw_about = profile_dict["about"]
+            if "Background & Specific Details:" in raw_about:
+                narrative = raw_about.split("Background & Specific Details:", 1)[1].strip()
+            elif "• Primary Discipline / Field:" in raw_about:
+                lines = [l for l in raw_about.splitlines() if not l.strip().startswith("•")]
+                narrative = "\n".join(lines).strip()
+            else:
+                narrative = raw_about.strip()
+
+        selected_field = profile_dict.get("primary_field") or ""
+        selected_experience = profile_dict.get("experience_level") or ""
+        selected_goal = profile_dict.get("primary_goal") or ""
+        selected_commitment = profile_dict.get("time_commitment") or ""
+        selected_learning_style = profile_dict.get("learning_style") or ""
+
+    if not selected_field and chosen_career:
+        cc = chosen_career.lower()
+        if "ai" in cc or "machine learning" in cc or "data" in cc:
+            selected_field = "AI, Machine Learning & Data Science"
+        elif "design" in cc or "ux" in cc or "ui" in cc:
+            selected_field = "UI/UX & Product Design"
+        elif "product" in cc:
+            selected_field = "Product Management & Tech Strategy"
+        elif "security" in cc or "cyber" in cc:
+            selected_field = "Cybersecurity & Systems Administration"
+        elif "finance" in cc or "venture" in cc or "business" in cc:
+            selected_field = "Business, Finance & Venture Operations"
+        elif "marketing" in cc or "growth" in cc:
+            selected_field = "Marketing, Brand & Growth Engineering"
+        elif "web" in cc or "software" in cc or "engineer" in cc or "fullstack" in cc or "backend" in cc:
+            selected_field = "Software Engineering & Web Systems"
+
     conn.close()
-    return render_template("profile.html", profile=profile)
+    return render_template(
+        "profile.html",
+        profile=profile,
+        narrative=narrative,
+        is_onboarded=is_onboarded,
+        selected_field=selected_field,
+        selected_experience=selected_experience,
+        selected_goal=selected_goal,
+        selected_commitment=selected_commitment,
+        selected_learning_style=selected_learning_style
+    )
 
 
 @app.route("/career")

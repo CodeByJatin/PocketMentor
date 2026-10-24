@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS profiles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
     about TEXT,
+    about_narrative TEXT,
     chosen_career TEXT,
     primary_field TEXT,
     experience_level TEXT,
